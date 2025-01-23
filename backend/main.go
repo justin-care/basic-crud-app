@@ -30,7 +30,7 @@ func main(){
 	mux.HandleFunc("/tasks", taskHandler)
 
 	handler:= cors.New(cors.Options{
-		AllowedOrigins: []string{"api eventually goes here"},
+		AllowedOrigins: []string{"https://basic-crud-app-three.vercel.app/"},
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders: []string{"Content-Type"},
 		AllowCredentials: true,
