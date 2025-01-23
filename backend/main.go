@@ -30,7 +30,7 @@ func main(){
 	mux.HandleFunc("/tasks", taskHandler)
 
 	handler:= cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:5173"},
+		AllowedOrigins: []string{"api eventually goes here"},
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders: []string{"Content-Type"},
 		AllowCredentials: true,
