@@ -1,28 +1,6 @@
-# Full-Stack Task Management Application
+# Full-Stack Task Management Application (CORS-Protected Version)
 
-This project is a full-stack task management application built with a **React** frontend and a **Go** backend. It provides a seamless interface for managing tasks with features such as adding, updating, completing, and deleting tasks.
-
----
-
-## **Table of Contents**
-1. [Overview](#overview)
-2. [Features](#features)
-3. [Technologies Used](#technologies-used)
-4. [Installation and Setup](#installation-and-setup)
-5. [API Endpoints](#api-endpoints)
-6. [Testing](#testing)
-7. [Limitations](#limitations)
-8. [Future Enhancements](#future-enhancements)
-
----
-
-## **Overview**
-This application consists of:
-
-1. **Frontend**: A React app built with Vite for rapid development and deployment.
-2. **Backend**: A Go-based REST API with an in-memory database for managing tasks.
-
-The frontend and backend work together to provide a dynamic and user-friendly task management experience.
+This project is a full-stack task management application built with a **React** frontend and a **Go** backend. This version includes CORS protection, restricting backend access to requests originating from the deployed frontend domain (`https://your-frontend.vercel.app`).
 
 ---
 
@@ -30,7 +8,7 @@ The frontend and backend work together to provide a dynamic and user-friendly ta
 ### Backend:
 - CRUD operations (Create, Read, Update, Delete) for task management.
 - RESTful API design for easy integration.
-- In-memory database for rapid prototyping and development.
+- **CORS Protection**: Only requests from authorized domains are allowed.
 
 ### Frontend:
 - Dynamic task management UI with React.
@@ -40,147 +18,35 @@ The frontend and backend work together to provide a dynamic and user-friendly ta
 
 ---
 
-## **Technologies Used**
-### Backend:
-- **Go**: Backend programming language.
-- **REST API**: For communication with the frontend.
+## **Security**
+### Backend Protection with CORS
+The backend is protected with Cross-Origin Resource Sharing (CORS) to ensure only requests from the authorized frontend domain can interact with the API.
 
-### Frontend:
-- **React**: Library for building user interfaces.
-- **Vite**: Fast development environment for React apps.
-- **TailwindCSS**: Utility-first CSS framework for styling.
-- **Flowbite-React**: Prebuilt UI components for React.
+- **Allowed Origins**: Only requests from `https://your-frontend.vercel.app` are permitted.
+- **Allowed Methods**: `GET`, `POST`, `PUT`, and `DELETE`.
+- **Allowed Headers**: `Content-Type`.
+- **Allow Credentials**: Enabled for secure client-server communication.
 
 ---
 
 ## **Installation and Setup**
+### Additional Notes for CORS Version
+- The backend now uses CORS to restrict access to requests originating from the frontend's production domain (`https://your-frontend.vercel.app`).
+- When testing locally, make sure the frontend is running on `http://localhost:5173`, or update the backend's CORS configuration to allow `http://localhost:5173` as an origin for development.
 
-### Prerequisites:
-- **Node.js** and **npm** installed.
-- **Go** installed on your system.
-
-### Steps:
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/justin-care/basic-crud-app.git
-   cd basic-crud-app
-   ```
-
-2. Install and run the backend:
-   ```bash
-   cd backend
-   go run main.go
-   ```
-   The backend will start on `http://localhost:8080`.
-
-3. Install and run the frontend:
-   ```bash
-   cd ../frontend
-   npm install
-   npm run dev
-   ```
-   Access the frontend at `http://localhost:5173`.
-
----
-
-## **API Endpoints**
-### Base URL
+To temporarily allow local testing, modify the backend's CORS options in `main.go`:
+```go
+AllowedOrigins: []string{"http://localhost:5173", "https://your-frontend.vercel.app"},
 ```
-http://localhost:8080
-```
-
-### Endpoints
-1. **Get All Tasks**:
-   - **GET** `/tasks`
-   - **Response**:
-     ```json
-     [
-       {
-         "ID": 1,
-         "Title": "Sample Task 1",
-         "Done": false
-       },
-       {
-         "ID": 2,
-         "Title": "Sample Task 2",
-         "Done": false
-       }
-     ]
-     ```
-
-2. **Add a Task**:
-   - **POST** `/tasks`
-   - **Request Body**:
-     ```json
-     {
-       "Title": "New Task"
-     }
-     ```
-   - **Response**:
-     ```json
-     {
-       "ID": 11,
-       "Title": "New Task",
-       "Done": false
-     }
-     ```
-
-3. **Update a Task**:
-   - **PUT** `/tasks`
-   - **Request Body**:
-     ```json
-     {
-       "ID": 1,
-       "Done": true
-     }
-     ```
-   - **Response**:
-     ```json
-     {
-       "ID": 1,
-       "Title": "Sample Task 1",
-       "Done": true
-     }
-     ```
-
-4. **Delete a Task**:
-   - **DELETE** `/tasks?id={task_id}`
-   - **Response**:
-     ```json
-     {
-       "message": "Task deleted successfully."
-     }
-     ```
 
 ---
 
 ## **Testing**
-### Backend:
-Use tools like **Postman** or **cURL** to test API endpoints. Example commands:
-
-- **Get Tasks**:
-  ```bash
-  curl -X GET http://localhost:8080/tasks
-  ```
-- **Add Task**:
-  ```bash
-  curl -X POST -H "Content-Type: application/json" -d '{"Title":"New Task"}' http://localhost:8080/tasks
-  ```
-- **Update Task**:
-  ```bash
-  curl -X PUT -H "Content-Type: application/json" -d '{"ID":1,"Done":true}' http://localhost:8080/tasks
-  ```
-- **Delete Task**:
-  ```bash
-  curl -X DELETE http://localhost:8080/tasks?id=1
-  ```
-
-### Frontend:
-1. Run the React app.
-2. Interact with the UI to add, update, and delete tasks.
-3. Verify that changes are reflected in the task lists.
+### Backend (CORS-Specific Notes)
+When testing the backend with tools like Postman or cURL, CORS restrictions do not apply. However, requests from unauthorized domains in the browser will be blocked unless explicitly allowed in the backend configuration.
 
 ---
 
-## **Limitations**
-- **In-Memory Storage**: Data is not persisted and will reset on server restart. Suitable for development and testing but not for production.
+## **Branch-Specific Notes**
+### CORS-Protected Version
+This branch includes CORS protection on the backend to restrict access to authorized domains. If you need an unrestricted version for testing or other purposes, refer to the `main` branch.
