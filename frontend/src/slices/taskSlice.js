@@ -1,10 +1,12 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
+const api = import.meta.env.VITE_BACKEND_LOCATION
+
 const fetchTasks = createAsyncThunk(
     "task/fetchTasks",
     async () => {
-        const response = await axios.get("http://localhost:8080/tasks")
+        const response = await axios.get(api + "/tasks")
         return response.data
     }
 );
@@ -12,7 +14,7 @@ const fetchTasks = createAsyncThunk(
 const addTask = createAsyncThunk(
     "task/addTask",
     async (task) => {
-        const response = await axios.post("http://localhost:8080/tasks", task)
+        const response = await axios.post(api + "/tasks", task)
         return response.data
     }
 );
@@ -20,7 +22,7 @@ const addTask = createAsyncThunk(
 const deleteTask = createAsyncThunk(
     "task/deleteTask",
     async (id) => {
-        const response = await axios.delete(`http://localhost:8080/tasks?id=${id}`)
+        const response = await axios.delete(api + `/tasks?id=${id}`)
         return response.data
     }
 );
@@ -28,7 +30,7 @@ const deleteTask = createAsyncThunk(
 const updateTask = createAsyncThunk(
     "task/updateTask",
     async (task) => {
-        const response = await axios.put(`http://localhost:8080/tasks`, task)
+        const response = await axios.put(api + `/tasks`, task)
         return response.data
     }
 );
