@@ -155,3 +155,5 @@ go.work.sum
 
 # env file
 .env
+*.toml
+Dockerfile
